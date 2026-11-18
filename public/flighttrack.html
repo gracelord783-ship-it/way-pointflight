@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10263d">
+  <title>Track a Flight — Waypoint</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .standalone-track-hero{padding:66px 0 56px;background:linear-gradient(115deg,#10263d,#1c4566);color:#fff;position:relative;overflow:hidden}
+    .standalone-track-hero:after{content:'✈';position:absolute;right:8%;top:-35px;font:300px Arial,sans-serif;color:#ffffff09;transform:rotate(-12deg);pointer-events:none}
+    .standalone-track-hero .wrap{position:relative;z-index:1}
+    .standalone-track-hero h1{font:800 clamp(38px,5vw,56px)/1.08 'Manrope',sans-serif;letter-spacing:-2.5px;margin:15px 0 12px}
+    .standalone-track-hero h1 span{color:#9bd0f3}
+    .standalone-track-hero>div>p{max-width:560px;color:#c3ccd6;font-size:13px;line-height:1.8;margin:0}
+    .standalone-track-hero .track-search{max-width:590px;margin-top:24px}
+    .standalone-track-hero .search-help{color:#c0cbd5}
+    .standalone-result{padding:35px 0 70px;min-height:250px}
+    .standalone-result:empty{display:none}
+    .standalone-menu{display:flex;align-items:center;gap:25px;font-size:12px;font-weight:600;color:#526174}
+    .standalone-menu a:hover{color:#4389bd}
+    .tracking-result .tracking-card{box-shadow:0 14px 42px #152a3d0a}
+    @media(max-width:760px){.standalone-track-hero{padding:50px 0 43px}.standalone-menu{gap:14px;font-size:10px}}
+    @media(max-width:520px){.standalone-menu a:not(:last-child){display:none}.standalone-track-hero h1{font-size:40px}.standalone-track-hero .track-search{margin-top:20px}}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="Waypoint home"><span class="brand-mark">W</span><span>waypoint<span class="brand-period">.</span></span></a>
+    <nav class="standalone-menu" aria-label="Main navigation">
+      <a href="/">Home</a>
+      <a href="/flighttrack" aria-current="page">Track flight</a>
+      <a href="/#about">About us</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+  </header>
+  <main>
+    <section class="standalone-track-hero">
+      <div class="wrap">
+        <div class="eyebrow"><span class="status-dot"></span> PUBLIC FLIGHT TRACKING</div>
+        <h1>Track a flight.<br><span>Know the latest.</span></h1>
+        <p>Enter a tracking code to review its latest record status, journey details, and tracking updates.</p>
+        <form class="track-search" id="standaloneTrackForm">
+          <label class="sr-only" for="standaloneTrackingCode">Enter a tracking code</label>
+          <span class="search-icon" aria-hidden="true">⌕</span>
+          <input id="standaloneTrackingCode" name="code" placeholder="Enter your tracking code" autocomplete="off" required>
+          <button class="button button-primary" type="submit">Track flight <span>→</span></button>
+        </form>
+        <p class="search-help">Tracking codes are not case-sensitive.</p>
+      </div>
+    </section>
+    <section class="standalone-result wrap" id="trackingResult" aria-live="polite"></section>
+  </main>
+  <footer class="site-footer"><div class="wrap footer-inner"><a class="brand footer-brand" href="/"><span class="brand-mark">W</span><span>waypoint<span class="brand-period">.</span></span></a><p>Flight records, made clearer.</p><nav aria-label="Footer navigation"><a href="/#about">About</a><a href="/#contact">Contact</a><a href="/flighttrack">Track a ticket</a></nav><small>© <span id="year"></span> Waypoint. Platform-generated records are not airline-issued tickets.</small></div></footer>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="/tracking.js"></script>
+</body>
+</html>

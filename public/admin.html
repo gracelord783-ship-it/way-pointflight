@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0c1e31">
+  <title>Waypoint Ops — Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/admin.css">
+</head>
+<body>
+  <main id="loginView" class="login-screen">
+    <section class="login-card">
+      <a class="brand" href="/"><span class="brand-mark">W</span><span>waypoint<span class="period">.</span><small>OPERATIONS</small></span></a>
+      <div id="setupPanel" hidden>
+        <div class="login-label">FIRST-TIME SETUP</div>
+        <h1>Create admin account.</h1>
+        <p class="muted">No administrator exists yet. Create the first admin account to open the dashboard.</p>
+        <form id="adminSetupForm">
+          <label>Full name<input name="name" autocomplete="name" placeholder="Your name" required></label>
+          <label>Email address<input name="email" type="email" autocomplete="username" placeholder="admin@example.com" required></label>
+          <label>Password<input name="password" type="password" autocomplete="new-password" minlength="8" placeholder="At least 8 characters" required></label>
+          <label>Confirm password<input name="confirm" type="password" autocomplete="new-password" minlength="8" placeholder="Repeat password" required></label>
+          <p id="setupError" class="error" role="alert"></p>
+          <button class="primary-button" type="submit">Create admin account <span>→</span></button>
+        </form>
+      </div>
+      <div id="signinPanel">
+      <div class="login-label">ADMINISTRATOR ACCESS</div>
+      <h1>Welcome back.</h1>
+      <p class="muted">Sign in with an administrator or customer care account.</p>
+      <form id="adminLoginForm">
+        <label>Email address<input name="email" type="email" autocomplete="username" placeholder="admin@example.com" required></label>
+        <label>Password<input name="password" type="password" autocomplete="current-password" placeholder="Your password" required></label>
+        <p id="loginError" class="error" role="alert"></p>
+        <button class="primary-button" type="submit">Sign in to dashboard <span>→</span></button>
+      </form>
+      </div>
+            <a class="back-link" href="/">← Back to website</a>
+    </section>
+  </main>
+
+  <div id="adminApp" class="app-shell" hidden>
+    <aside class="sidebar" id="sidebar">
+      <a class="brand sidebar-brand" href="/admin"><span class="brand-mark">W</span><span>waypoint<span class="period">.</span><small>OPERATIONS</small></span></a>
+      <div class="workspace-label">WORKSPACE</div>
+      <nav class="side-nav" aria-label="Admin navigation">
+        <a class="side-link active" href="#overview" data-section="overview"><span>▦</span>Overview</a>
+        <a class="side-link" href="#tickets" data-section="tickets"><span>▤</span>Ticket management</a>
+        <a class="side-link" href="#updates" data-section="updates"><span>◷</span>Flight updates</a>
+        <a class="side-link" href="#codes" data-section="codes"><span>⌗</span>Tracking codes</a>
+        <a class="side-link" href="#users" data-section="users"><span>♙</span>Users</a>
+        <a class="side-link" href="#transactions" data-section="transactions"><span>₦</span>Transactions</a>
+        <a class="side-link" href="#support" data-section="support"><span>✉</span>Customer care <em id="supportBadge" hidden></em></a>
+        <a class="side-link" href="#staff" data-section="staff" data-manager-only><span>⚑</span>Staff</a>
+        <a class="side-link" href="#settings" data-section="settings" data-manager-only><span>⚙</span>Payment settings</a>
+      </nav>
+      <div class="sidebar-bottom"><div class="env-status"><span></span><div><strong id="staffName">Signed in</strong><small id="staffRole">Live data</small></div></div><button id="logoutButton" class="logout-button">↪ <span>Log out</span></button></div>
+    </aside>
+
+    <div class="main-area">
+      <header class="topbar"><button id="sidebarToggle" class="sidebar-toggle" aria-label="Toggle navigation">☰</button><div class="breadcrumb">Operations <span>/</span> <strong id="breadcrumbPage">Overview</strong></div><div class="topbar-right"><a class="view-site" href="/" target="_blank" rel="noopener">View website ↗</a><div class="avatar" id="adminAvatar">A</div></div></header>
+      <main class="content">
+        <section id="overviewSection" class="admin-section">
+          <div class="page-heading"><div><div class="eyebrow">FLIGHT OPERATIONS</div><h1>Overview</h1><p>Monitor flight records and the latest activity.</p></div><a href="#tickets" class="primary-button" data-section-link="tickets">Manage tickets <span>→</span></a></div>
+          <div class="stats-grid">
+            <article class="stat-card"><div class="stat-top"><span class="stat-icon blue">▤</span><span class="stat-caption">ALL RECORDS</span></div><strong id="statTotal">0</strong><small>All customer tickets</small></article>
+            <article class="stat-card"><div class="stat-top"><span class="stat-icon green">◷</span><span class="stat-caption">ACTIVE</span></div><strong id="statActive">0</strong><small>Currently in progress</small></article>
+            <article class="stat-card"><div class="stat-top"><span class="stat-icon purple">✓</span><span class="stat-caption">COMPLETED</span></div><strong id="statCompleted">0</strong><small>Journey marked complete</small></article>
+            <article class="stat-card"><div class="stat-top"><span class="stat-icon orange">!</span><span class="stat-caption">NEEDS ATTENTION</span></div><strong id="statAttention">0</strong><small>Delayed or cancelled</small></article>
+          </div>
+          <div class="overview-grid">
+            <section class="panel status-panel"><div class="panel-heading"><div><h2>Status distribution</h2><p>Current ticket status breakdown</p></div><span class="panel-mark">LIVE DATA</span></div><div class="chart-layout"><div id="statusDonut" class="donut"><div><strong id="donutTotal">0</strong><small>tickets</small></div></div><div id="statusLegend" class="legend"></div></div></section>
+            <section class="panel activity-panel"><div class="panel-heading"><div><h2>Recent activity</h2><p>Latest ticket status changes</p></div><a href="#updates" data-section-link="updates">View updates →</a></div><div id="recentActivity" class="activity-list"></div></section>
+          </div>
+          <section class="panel recent-tickets"><div class="panel-heading"><div><h2>Recently created tickets</h2><p>Latest records across all customers</p></div><a href="#tickets" data-section-link="tickets">All tickets →</a></div><div id="recentTickets" class="table-wrap"></div></section>
+        </section>
+
+        <section id="ticketsSection" class="admin-section" hidden>
+          <div class="page-heading"><div><div class="eyebrow">RECORDS</div><h1>Ticket management</h1><p>Search records and publish status updates to their tracking history.</p></div></div>
+          <section class="panel ticket-manager"><div class="filters"><label class="search-field"><span>⌕</span><input id="ticketSearch" type="search" placeholder="Search tracking code, passenger or flight…"></label><label class="filter-select"><span class="sr-only">Filter by status</span><select id="statusFilter"><option value="">All statuses</option></select></label></div><div id="ticketTable" class="table-wrap"></div></section>
+        </section>
+
+        <section id="updatesSection" class="admin-section" hidden>
+          <div class="page-heading"><div><div class="eyebrow">TRACKING TIMELINE</div><h1>Flight updates</h1><p>Review the status changes recorded for tracked tickets.</p></div><a href="#tickets" class="secondary-button" data-section-link="tickets">Update a ticket</a></div>
+          <section class="panel"><div id="updatesList" class="updates-list"></div></section>
+        </section>
+
+        <section id="codesSection" class="admin-section" hidden>
+          <div class="page-heading"><div><div class="eyebrow">PUBLIC LOOKUP</div><h1>Tracking codes</h1><p>Find a code and open its public tracking page.</p></div></div>
+          <section class="panel"><div id="codesTable" class="table-wrap"></div></section>
+        </section>
+
+        <section id="usersSection" class="admin-section" hidden>
+          <div class="page-heading"><div><div class="eyebrow">ACCOUNTS</div><h1>Users</h1><p>Every customer and staff account on Waypoint.</p></div></div>
+          <section class="panel ticket-manager"><div class="filters"><label class="search-field"><span>⌕</span><input id="userSearch" type="search" placeholder="Search name, email or ID…"></label><label class="filter-select"><span class="sr-only">Filter by role</span><select id="roleFilter"><option value="">All roles</option><option value="user">Customers</option><option value="support">Customer care</option><option value="admin">Admins</option><option value="super_admin">Super admins</option></select></label></div><div id="usersTable" class="table-wrap"></div></section>
+        </section>
+
+        <section id="transactionsSection" class="admin-section" hidden>
+          <div class="page-heading"><div><div class="eyebrow">PAYMENTS</div><h1>Transactions</h1><p>All customer payments and their status.</p></div></div>
+          <div class="stats-grid">
+            <article class="stat-card"><div class="stat-top"><span class="stat-icon green">₦</span><span class="stat-caption">RECEIVED</span></div><strong id="txnTotal">₦0</strong><small>Successful payments</small></article>
+            <article class="stat-card"><div class="stat-top"><span class="stat-icon blue">✓</span><span class="stat-caption">SUCCESSFUL</span></div><strong id="txnSuccess">0</strong><small>Transactions</small></article>
+            <article class="stat-card"><div class="stat-top"><span class="stat-icon orange">◷</span><span class="stat-caption">PENDING</span></div><strong id="txnPending">0</strong><small>Awaiting confirmation</small></article>
+            <article class="stat-card"><div class="stat-top"><span class="stat-icon purple">!</span><span class="stat-caption">FAILED</span></div><strong id="txnFailed">0</strong><small>Failed or refunded</small></article>
+          </div>
+          <section class="panel ticket-manager"><div class="filters"><label class="search-field"><span>⌕</span><input id="txnSearch" type="search" placeholder="Search reference, customer or ticket code…"></label><label class="filter-select"><span class="sr-only">Filter by status</span><select id="txnFilter"><option value="">All statuses</option><option value="successful">Successful</option><option value="pending">Pending</option><option value="failed">Failed</option><option value="refunded">Refunded</option></select></label></div><div id="txnTable" class="table-wrap"></div></section>
+        </section>
+
+        <section id="supportSection" class="admin-section" hidden>
+          <div class="page-heading"><div><div class="eyebrow">CUSTOMER CARE</div><h1>Customer care</h1><p>Messages from customers. Replies appear on the website's Contact page.</p></div><label class="filter-select"><span class="sr-only">Filter conversations</span><select id="supportFilter"><option value="open">Open</option><option value="awaiting">Awaiting reply</option><option value="closed">Closed</option><option value="">All</option></select></label></div>
+          <div class="support-layout"><section class="panel support-list" id="supportList"></section><section class="panel support-view" id="supportView"><div class="empty-content">Select a conversation to read and reply.</div></section></div>
+        </section>
+
+        <section id="staffSection" class="admin-section" hidden>
+          <div class="page-heading"><div><div class="eyebrow">TEAM</div><h1>Staff</h1><p>Add customer care agents and administrators who can sign in at /admin.</p></div></div>
+          <div class="staff-layout">
+            <section class="panel"><div class="panel-heading"><div><h2>Add a staff member</h2><p>Share the temporary password with them privately.</p></div></div>
+              <form id="staffForm" class="staff-form">
+                <label>Full name<input name="name" required></label>
+                <label>Email address<input name="email" type="email" required></label>
+                <label>Temporary password<input name="password" type="text" minlength="8" required autocomplete="off"></label>
+                <label>Role<select name="role" id="staffRoleSelect"><option value="support">Customer care</option><option value="admin">Administrator</option></select></label>
+                <p id="staffError" class="error" role="alert"></p>
+                <button class="primary-button" type="submit">Add staff member <span>→</span></button>
+              </form>
+            </section>
+            <section class="panel"><div class="panel-heading"><div><h2>Current staff</h2><p>Customer care can view data and answer messages. Admins can also manage users and staff.</p></div></div><div id="staffTable" class="table-wrap"></div></section>
+          </div>
+        </section>
+
+        <section id="settingsSection" class="admin-section" hidden>
+          <div class="page-heading"><div><div class="eyebrow">PAYMENTS</div><h1>Payment settings</h1><p>Set what customers pay to create a flight record. Payments are processed by Flutterwave.</p></div></div>
+          <div class="staff-layout">
+            <section class="panel"><div class="panel-heading"><div><h2>Ticket price</h2><p>Set to 0 to make creating tickets free.</p></div></div>
+              <form id="priceForm" class="staff-form">
+                <label>Price per ticket (₦)<input name="ticketPriceNaira" type="number" min="0" step="0.01" required></label>
+                <p id="priceError" class="error" role="alert"></p>
+                <button class="primary-button" type="submit">Save price <span>→</span></button>
+              </form>
+            </section>
+            <section class="panel"><div class="panel-heading"><div><h2>Flutterwave connection</h2><p>Status of the payment provider.</p></div></div><div id="paymentStatus" class="payment-status"></div></section>
+          </div>
+        </section>
+        <footer class="admin-footer">Waypoint Operations <span>·</span> Platform-generated records are not airline-issued tickets.</footer>
+      </main>
+    </div>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="/admin.js"></script>
+</body>
+</html>

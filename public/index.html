@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10263d">
+  <title>Waypoint — Flight records, made clearer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#home" aria-label="Waypoint home"><span class="brand-mark">W</span><span>waypoint<span class="brand-period">.</span></span></a>
+    <button class="menu-toggle" id="menuToggle" type="button" aria-controls="mainNav" aria-expanded="false" aria-label="Open navigation">☰</button>
+    <nav class="main-nav" id="mainNav" aria-label="Main navigation">
+      <a href="#home" data-nav="home">Home</a>
+      <a href="/flighttrack" data-nav="track">Track flight</a>
+      <a href="#dashboard" data-nav="dashboard" class="auth-link" hidden>Dashboard</a>
+      <a href="#tickets" data-nav="tickets" class="auth-link" hidden>My tickets</a>
+      <a href="#about" data-nav="about">About us</a>
+      <a href="#contact" data-nav="contact">Contact</a>
+      <a href="#login" data-nav="login" class="guest-link button button-primary nav-cta">Log in</a>
+      <a href="#create" data-nav="create" class="auth-link button button-primary nav-cta" hidden>Create ticket</a>
+      <button type="button" id="logoutButton" class="button button-outline nav-cta" hidden>Log out</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HOME -->
+    <section class="page" data-page="home" id="homePage">
+      <div class="hero">
+        <div class="hero-shade"></div>
+        <div class="wrap hero-content">
+          <div class="eyebrow"><span class="status-dot"></span> FLIGHT RECORD TRACKING</div>
+          <h1>Every flight.<br><span>One clear record.</span></h1>
+          <p class="hero-copy">Create a flight record, get a unique tracking code, and share its latest status with anyone — no account needed to track.</p>
+          <form class="track-search hero-search" id="heroTrackForm">
+            <label class="sr-only" for="heroTrackingCode">Enter a tracking code</label>
+            <span class="search-icon" aria-hidden="true">⌕</span>
+            <input id="heroTrackingCode" name="code" placeholder="Enter your tracking code" autocomplete="off" required>
+            <button class="button button-primary" type="submit">Track flight <span>→</span></button>
+          </form>
+          <p class="search-help">Tracking codes look like WP-XXXXXX and are not case-sensitive.</p>
+        </div>
+        <div class="hero-coordinate">N 40°38′ · W 73°46′</div>
+      </div>
+      <div class="wrap trust-row">
+        <div><span class="trust-icon">⌕</span><div><strong>Public tracking</strong><small>Anyone with a code can check status</small></div></div>
+        <div><span class="trust-icon">✓</span><div><strong>Clear history</strong><small>Every status change is timestamped</small></div></div>
+        <div><span class="trust-icon">◎</span><div><strong>Privacy first</strong><small>Only limited passenger info is shown</small></div></div>
+      </div>
+      <div class="wrap section">
+        <div class="section-heading">
+          <div><div class="eyebrow eyebrow-dark">HOW IT WORKS</div><h2>Three simple steps.</h2></div>
+          <p>Waypoint keeps your flight records organised and easy to share. Records are user-entered and not issued by airlines.</p>
+        </div>
+        <div class="how-grid">
+          <article class="how-card"><span class="how-number">01</span><div class="how-symbol">✎</div><h3>Create a record</h3><p>Log in and enter the airline, flight number, route, and schedule.</p></article>
+          <article class="how-card"><span class="how-number">02</span><div class="how-symbol">#</div><h3>Get a tracking code</h3><p>Each record gets a unique code you can copy and share in one click.</p></article>
+          <article class="how-card"><span class="how-number">03</span><div class="how-symbol">✈</div><h3>Track &amp; update</h3><p>Update the status as the journey progresses. Anyone with the code sees the latest.</p></article>
+        </div>
+      </div>
+      <div class="home-cta">
+        <div class="wrap cta-inner">
+          <div><div class="eyebrow">GET STARTED</div><h2>Ready to create your first record?</h2><p>It only takes a minute.</p></div>
+          <a class="button button-primary" href="#create">Create a ticket <span>→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOGIN / SIGN UP -->
+    <section class="page" data-page="login" id="loginPage">
+      <div class="auth-layout">
+        <aside class="auth-aside">
+          <div class="eyebrow"><span class="status-dot"></span> YOUR ACCOUNT</div>
+          <h1>Welcome to Waypoint.</h1>
+          <p>Log in to create flight records, generate tracking codes, and keep status updates current.</p>
+          <div class="aside-decoration">✈</div>
+        </aside>
+        <div class="auth-card">
+          <div id="loginPanel">
+            <div class="eyebrow eyebrow-dark">LOG IN</div>
+            <h2>Sign in to your account</h2>
+            <p class="muted">Use the email and password you registered with.</p>
+            <form class="form-stack" id="loginForm" novalidate>
+              <label>Email<input type="email" name="email" autocomplete="email" required></label>
+              <label>Password<input type="password" name="password" autocomplete="current-password" required></label>
+              <p class="form-error" id="loginError" role="alert"></p>
+              <button class="button button-primary full-button" type="submit">Log in <span>→</span></button>
+            </form>
+            <p class="auth-switch">New to Waypoint? <a href="#login" id="showRegister">Create an account</a></p>
+          </div>
+          <div id="registerPanel" hidden>
+            <div class="eyebrow eyebrow-dark">SIGN UP</div>
+            <h2>Create your account</h2>
+            <p class="muted">It only takes a minute.</p>
+            <form class="form-stack" id="registerForm" novalidate>
+              <label>Full name<input name="name" autocomplete="name" required></label>
+              <label>Email<input type="email" name="email" autocomplete="email" required></label>
+              <label>Password<input type="password" name="password" autocomplete="new-password" minlength="6" required></label>
+              <p class="form-error" id="registerError" role="alert"></p>
+              <button class="button button-primary full-button" type="submit">Create account <span>→</span></button>
+            </form>
+            <p class="auth-switch">Already have an account? <a href="#login" id="showLogin">Log in</a></p>
+          </div>
+          <p class="demo-disclaimer">Flight records on Waypoint are user-entered and are not airline-issued tickets.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- DASHBOARD -->
+    <section class="page" data-page="dashboard" id="dashboardPage">
+      <div class="wrap dashboard">
+        <div class="page-title-row">
+          <div><div class="eyebrow eyebrow-dark">DASHBOARD</div><h1 id="welcomeHeading">Welcome back.</h1><p class="muted">Here's an overview of your flight records.</p></div>
+          <a class="button button-primary" href="#create">Create a ticket <span>→</span></a>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card"><span>Total records</span><strong id="statTotal">0</strong><small>All time</small></div>
+          <div class="stat-card"><span>Active</span><strong id="statActive">0</strong><small>Not completed or cancelled</small></div>
+          <div class="stat-card"><span>Completed</span><strong id="statCompleted">0</strong><small>Finished journeys</small></div>
+          <div class="stat-card"><span>Delayed</span><strong id="statDelayed">0</strong><small>Needs attention</small></div>
+        </div>
+        <div class="list-heading">
+          <div><h2>Recent records</h2><p>Your four most recent flight records.</p></div>
+          <a class="text-link" href="#tickets">View all →</a>
+        </div>
+        <div class="ticket-list" id="dashboardTickets"></div>
+        <div class="dashboard-tip"><span>ℹ</span><p>Share a tracking code with anyone — they can check the latest status at /flighttrack without an account.</p></div>
+      </div>
+    </section>
+
+    <!-- CREATE TICKET -->
+    <section class="page" data-page="create" id="createPage">
+      <div class="wrap form-page">
+        <div class="page-title-row">
+          <div><div class="eyebrow eyebrow-dark">NEW RECORD</div><h1>Create a flight ticket</h1><p class="muted">A unique tracking code is generated when you save.</p></div>
+        </div>
+        <div class="notice" id="priceNotice" hidden></div>
+        <div class="notice"><span>⚠</span><p>This creates a platform-generated record. It is not an airline-issued ticket and its details are not independently verified.</p></div>
+        <form class="ticket-form" id="ticketForm" novalidate>
+          <fieldset>
+            <legend><span>01</span>Passenger</legend>
+            <div class="field-grid">
+              <label>Passenger name<input name="passenger" autocomplete="name" required></label>
+              <label>Travel class
+                <select name="travelClass">
+                  <option>Economy</option><option>Premium Economy</option><option>Business</option><option>First</option>
+                </select>
+              </label>
+              <label>Seat <span class="optional">(optional)</span><input name="seat" placeholder="e.g. 14A"></label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend><span>02</span>Flight</legend>
+            <div class="field-grid">
+              <label>Airline<input name="airline" required></label>
+              <label>Flight number<input name="flightNumber" placeholder="e.g. WP 204" required></label>
+              <label>Departure airport<input name="departureAirport" placeholder="e.g. JFK" required></label>
+              <label>Destination airport<input name="destinationAirport" placeholder="e.g. LHR" required></label>
+            </div>
+          </fieldset>
+          <fieldset>
+            <legend><span>03</span>Schedule</legend>
+            <div class="field-grid">
+              <label>Departure date<input type="date" name="departureDate" required></label>
+              <label>Departure time<input type="time" name="departureTime" required></label>
+              <label>Arrival date<input type="date" name="arrivalDate" required></label>
+              <label>Arrival time<input type="time" name="arrivalTime" required></label>
+              <label class="wide-field">Notes <span class="optional">(optional)</span><textarea name="notes" rows="3"></textarea></label>
+            </div>
+          </fieldset>
+          <p class="form-error" id="ticketError" role="alert"></p>
+          <div class="form-actions">
+            <a class="button button-outline" href="#dashboard">Cancel</a>
+            <button class="button button-primary" type="submit">Create ticket <span>→</span></button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ALL TICKETS -->
+    <section class="page" data-page="tickets" id="ticketsPage">
+      <div class="wrap dashboard">
+        <div class="page-title-row">
+          <div><div class="eyebrow eyebrow-dark">MY TICKETS</div><h1>All flight records</h1><p class="muted">Track, share, and update the status of your records.</p></div>
+          <a class="button button-primary" href="#create">Create a ticket <span>→</span></a>
+        </div>
+        <div class="ticket-list" id="allTickets"></div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="page" data-page="about" id="aboutPage">
+      <div class="wrap simple-page">
+        <div class="eyebrow eyebrow-dark">ABOUT US</div>
+        <h1>Flight records, made clearer.</h1>
+        <p>Waypoint is a simple way to keep track of flight journeys. Create a record for a trip, share its tracking code, and keep friends, family, or colleagues informed as the status changes.</p>
+        <p>All records on Waypoint are entered by users. They are not issued by airlines and do not reflect live aircraft positions.</p>
+      </div>
+    </section>
+
+    <!-- CONTACT / CUSTOMER CARE -->
+    <section class="page" data-page="contact" id="contactPage">
+      <div class="wrap simple-page support-page">
+        <div class="eyebrow eyebrow-dark">CUSTOMER CARE</div>
+        <h1>Get in touch.</h1>
+        <p>Questions about a tracking code, a payment, or your account? Send a message and our customer care team will reply here.</p>
+        <form class="ticket-form support-form" id="supportForm" novalidate>
+          <div class="field-grid">
+            <div id="supportGuestFields" class="field-grid wide-field">
+              <label>Your name<input name="name" autocomplete="name" required></label>
+              <label>Email<input type="email" name="email" autocomplete="email" required></label>
+            </div>
+            <label class="wide-field">Subject<input name="subject" maxlength="150" required></label>
+            <label class="wide-field">Message<textarea name="message" rows="4" required></textarea></label>
+          </div>
+          <p class="form-error" id="supportError" role="alert"></p>
+          <div class="form-actions"><button class="button button-primary" type="submit">Send message <span>→</span></button></div>
+        </form>
+        <div id="supportSent"></div>
+        <section id="mySupport" class="support-section" hidden>
+          <h2>Your support requests</h2>
+          <div id="mySupportList"></div>
+        </section>
+        <section id="supportLookup" class="support-section">
+          <h2>Check a support request</h2>
+          <form class="track-search support-lookup" id="supportLookupForm" novalidate>
+            <label class="sr-only" for="supportRef">Reference</label>
+            <input id="supportRef" name="reference" placeholder="Reference (CS-…)" required>
+            <label class="sr-only" for="supportEmail">Email</label>
+            <input id="supportEmail" type="email" name="email" placeholder="Email you used" required>
+            <button class="button button-primary" type="submit">View replies</button>
+          </form>
+          <div id="supportLookupResult"></div>
+        </section>
+        <p class="muted">For questions about an actual flight, booking, or baggage, please contact your airline directly.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div class="wrap footer-inner"><a class="brand footer-brand" href="#home"><span class="brand-mark">W</span><span>waypoint<span class="brand-period">.</span></span></a><p>Flight records, made clearer.</p><nav aria-label="Footer navigation"><a href="#about">About</a><a href="#contact">Contact</a><a href="/flighttrack">Track a ticket</a></nav><small>© <span id="year"></span> Waypoint. Platform-generated records are not airline-issued tickets.</small></div></footer>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="/app.js"></script>
+</body>
+</html>
